@@ -1,0 +1,9 @@
+calculation time in seconds for N = 100000
+size = 1: 40.7688
+size = 2: 30.5806
+size = 3: 22.3573
+size = 4: 17.5022
+size = 5: 14.2355
+size = 6: 12.1565
+size = 7: 10.6127
+size = 8: 9.74074
