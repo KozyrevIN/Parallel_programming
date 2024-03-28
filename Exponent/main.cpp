@@ -29,7 +29,7 @@ int main(int argc, char **argv)
         t1 = MPI_Wtime();
 
     //setting constants
-    const ulong N = 100000; //precision (digits)
+    const ulong N = 500000; //precision (digits)
     auto f = [](float M){ return (M * std::log(M) - M) / std::log(10) - N; };
     auto df = [](float M){ return std::log(M) / std::log(10); };
     const ulong M = ulong(Newton(f, df, float(N))) + size; //needed of amount of terms - 1
@@ -124,7 +124,7 @@ int main(int argc, char **argv)
             mpf_add(exp, exp, tmp);
         }
         delete[] exp_pass;
-        //gmp_printf("e = %.10000Ff\n", exp);
+        gmp_printf("e = %.500000Ff\n", exp);
     }
 
     mpf_clear(tmp);
