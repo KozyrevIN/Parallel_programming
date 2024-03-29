@@ -46,6 +46,22 @@ int main(int argc, char **argv)
 
     t_1 = MPI_Wtime();
     for(int i = 0; i < 1000000; i++) {
+        if (i % 2 == 0) {
+            if(rank == 0) {
+            MPI_Send(&pass, 1, MPI_DOUBLE, 1, i, MPI_COMM_WORLD);
+            }
+            else if (rank == 1) {
+                MPI_Recv(&pass, 1, MPI_DOUBLE, 0, i, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            }
+        } else {
+            if(rank == 1) {
+                MPI_Send(&pass, 1, MPI_DOUBLE, 0, i, MPI_COMM_WORLD);
+            }
+            else if (rank == 0) {
+                MPI_Recv(&pass, 1, MPI_DOUBLE, 1, i, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            }
+        }
+
         if(rank == 0) {
             MPI_Send(&pass, 1, MPI_DOUBLE, 1, i, MPI_COMM_WORLD);
         }
