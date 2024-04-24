@@ -11,6 +11,8 @@ include_directories(${MPI_INCLUDE_PATH})
 
 set(SOURCES 
     src/main.cpp
+    src/sorting_network.cpp
+    src/parallel_sort.cpp
 )
 
 add_executable(main ${SOURCES})

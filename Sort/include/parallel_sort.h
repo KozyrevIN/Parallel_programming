@@ -1,0 +1,1 @@
+void parallel_sort(int*, int, int, int);

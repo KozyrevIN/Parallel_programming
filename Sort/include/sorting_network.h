@@ -8,6 +8,6 @@ class SortingNetwork
 
     public:
     SortingNetwork(int);
-    int GetCycles();
-    int CompareTo(int, int);
+    int get_cycles();
+    int compare_to(int, int);
 };
