@@ -33,14 +33,16 @@ int main(int argc, char **argv)
 
     //initial params
     int M = INT_MAX;
-    int pow_max = 20;
+    int pow_max = 26;
     
     //testing algorithm
     std::ofstream output;
-    output.open("../out/" + std::to_string(rank) + ".csv");
-    output << "N,t\n";
+    if (rank == 0) {
+        output.open("../out/" + std::to_string(size) + "_best.csv");
+        output << "N,t\n";
+    }
 
-    for (int N = 8; N < std::pow(2, pow_max); N = N * 2) {
+    for (int N = 16; N <= std::pow(2, pow_max); N = N * 2) {
         int* a;
         if (rank == 0) {
             a = random_array(N, M);
@@ -51,7 +53,11 @@ int main(int argc, char **argv)
             t1 = MPI_Wtime();
         }
 
-        parallel_sort(a, N, size, rank);
+        if (size > 1) {
+            parallel_sort(a, N, size, rank);
+        } else {
+            std::sort(a, &a[N]);
+        }
 
         if (rank == 0) {
             t2 = MPI_Wtime();
@@ -60,6 +66,9 @@ int main(int argc, char **argv)
     }
 
     //finalizing all
+    if (rank == 0) {
+        output.close();
+    }
     MPI_Finalize();
     return 0;
 }

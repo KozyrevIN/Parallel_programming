@@ -13,11 +13,21 @@ void compare(int rank, int compare_to, int* a, int n) {
                      b, n, MPI_INT, compare_to, 0, 
                      MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-        for (int k = 0, i = 0, j = 0; k < n; k++) {
-            if (a[i] < b[i]) {
-                c[k] = a[i++];
-            } else {
-                c[k] = b[j++];
+        if (rank < compare_to) {
+            for (int k = 0, i = 0, j = 0; k < n; k++) {
+                if (a[i] < b[j]) {
+                    c[k] = a[i++];
+                } else {
+                    c[k] = b[j++];
+                }
+            }
+        } else {
+            for (int k = n - 1, i = n - 1, j = n - 1; k >= 0; k--) {
+                if (a[i] > b[j]) {
+                    c[k] = a[i--];
+                } else {
+                    c[k] = b[j--];
+                }
             }
         }
 
@@ -27,13 +37,13 @@ void compare(int rank, int compare_to, int* a, int n) {
 }
 
 void parallel_sort(int* a, int N, int size, int rank) {
-    int n = size / N;
+    int n = N / size;
     int* ai = new int[n];
     
     MPI_Scatter(a, n, MPI_INTEGER,
                 ai, n, MPI_INTEGER, 0, MPI_COMM_WORLD);
 
-    std::sort(ai, &ai[n - 1]);
+    std::sort(ai, &ai[n]);
 
     auto net = SortingNetwork(size);
 
