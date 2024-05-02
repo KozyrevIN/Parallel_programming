@@ -45,7 +45,11 @@ int main(int argc, char **argv)
     for (int N = 16; N <= std::pow(2, pow_max); N = N * 2) {
         int* a;
         if (rank == 0) {
-            a = random_array(N, M);
+            a = new int[N];
+            for (int i = 0; i < N; i++) {
+                a[i] = N - i;
+            }
+            //a = random_array(N, M);
         }
 
         double t1, t2;
