@@ -2,7 +2,6 @@
 #include <pthread.h>
 
 const int NUM_THREADS = 8;
-const int N = 1000;
 
 /* create shared variable */
 
@@ -19,6 +18,8 @@ struct thread_data {
 
 void* thr_func(void* arg) {
     thread_data* data = (thread_data*) arg;
+
+    while (shared_x < data -> tid);
 
     pthread_mutex_lock(&lock_x);
     shared_x += 1;
@@ -40,7 +41,7 @@ int main(int argc, char **argv) {
     /* create threads */
 
     for(i = 0; i < NUM_THREADS; ++i) {
-        thr_data[i].tid = i;
+        thr_data[i].tid = NUM_THREADS - 1 - i;
         if((rc = pthread_create(&thr[i], NULL, thr_func, &thr_data[i]))) {
             fprintf(stderr, "error: pthread_create, rc: %d\n", rc);
             return 1;
